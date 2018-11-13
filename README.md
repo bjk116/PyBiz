@@ -1,2 +1,4 @@
-# PyBiz
-A simple GUI Python app for businesses to keep track of day to day operations
+Documentation for PyIgnition
+
+Authors: Brian Karabinchak
+
