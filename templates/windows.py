@@ -3,9 +3,6 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QLabel,
 import PyQt5.QtCore as Qt
 import sys
 
-def getForm(title, questions, handleSubmit):
-	return FormWindow(title, questions, handleSubmit)
-
 class FormWindow(QDialog):
 	"""
 	A class that returns a new window that has the form of questions, inputs, and a submit button.
