@@ -1,10 +1,10 @@
 #See if I can refactor these following import statements, looks ugly
 import sys, os
 sys.path.insert(0, os.path.abspath('..'))
-import templates, views
+import templates
 from templates import windows
-from views import install
-from install import install
+import views
+from views.install import install
 
 class setup():
 	"""
@@ -17,7 +17,8 @@ class setup():
 		freshInstall: installs C:\\Program Files\\PyBiz and the few necessary text files
 	"""
 	installPath="C:\\Program Files\\PyBiz"
-	settingsFile = installPath + "\\settings.txt"
+	settingsFile = installPath + "\settings.txt"
+	installWindow = None
 
 	def __init__(self):
 		"""
@@ -33,6 +34,8 @@ class setup():
 			#we already have a PyBiz folder installed
 			#check for data
 			print("There is a folder in " + self.installPath)
+			# Delete later
+			self.freshInstall()
 		else:
 			#we gotta make one!
 			print("There is not a folder in " + self.installPath)
@@ -43,12 +46,13 @@ class setup():
 		This method installs the appropriate directories and files if the user never used PyBiz before
 
 		"""
-		os.path.mkdir(self.installPath)
-		os.chdir(self.installPath)
-		folders = ['Projects', 'Expense Reports', 'Invoices', 'Quotes', 'Employees']
+		# os.mkdir(self.installPath)
 		
-		for folder in folders:
-			os.path.mkdir('\\'+folder)
+		# folders = ['Projects', 'Expense Reports', 'Invoices', 'Quotes', 'Employees']
+		
+		# for folder in folders:
+
+		# 	os.mkdir(self.installPath"\\"+folder)
 
 		self.getCompanyInfo()
 
@@ -56,4 +60,4 @@ class setup():
 		"""
 		Opens the first dialog box the user will ever see, to enter some basic information about the comapny
 		"""
-		install.app()
+		self.installWindow = install.App()

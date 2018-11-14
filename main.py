@@ -5,5 +5,5 @@ from util import start
 if __name__ == '__main__':
     
     app = QApplication(sys.argv)
-    start.setup()
+    s = start.setup()
     sys.exit(app.exec_())
