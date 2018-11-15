@@ -1,9 +1,5 @@
 #See if I can refactor these following import statements, looks ugly
-import sys, os
-sys.path.insert(0, os.path.abspath('..'))
-import templates
-from templates import windows
-import views
+import os
 from views.install import install
 
 class setup():
@@ -45,19 +41,24 @@ class setup():
 		"""
 		This method installs the appropriate directories and files if the user never used PyBiz before
 
+		paramters:
+			self: passed with every method in classes
+		returns:
+			nothing, sets the directory that this app will save setings/data info to
 		"""
+
+		freshInstall = install.chooseDirectory('Welcome to PyBiz!  Before we continue, please pick where you want to save program data.', 'C:\Program Files\PyBiz')
+
 		# os.mkdir(self.installPath)
 		
-		# folders = ['Projects', 'Expense Reports', 'Invoices', 'Quotes', 'Employees']
+		# folders = ['Settings', 'Users', 'Data']
 		
 		# for folder in folders:
-
 		# 	os.mkdir(self.installPath"\\"+folder)
 
-		self.getCompanyInfo()
+		# To-Do: Everything beneath this I am realizing should be in its own fucking class window.fuck
 
-	def getCompanyInfo(self):
-		"""
-		Opens the first dialog box the user will ever see, to enter some basic information about the comapny
-		"""
-		self.installWindow = install.App()
+		# chooseDirecory= install.chooseDirectory()
+		
+
+		#Get Directory with validation

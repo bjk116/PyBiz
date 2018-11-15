@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication        
-from util import start
+import start
 
 if __name__ == '__main__':
     
