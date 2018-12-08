@@ -1,26 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>mainWindow</class>
+ <widget class="QMainWindow" name="mainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>811</width>
+    <width>706</width>
     <height>553</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PSM4 Interactive Documentation</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableWidget" name="tableWidget">
+   <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>761</width>
-      <height>471</height>
+      <x>20</x>
+      <y>50</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>All</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Global</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Projects</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Quotes</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Summary</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Time Entry\Expense</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QListWidget" name="listOfWindows">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>120</y>
+      <width>261</width>
+      <height>211</height>
      </rect>
     </property>
    </widget>
@@ -30,17 +70,27 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>811</width>
+     <width>706</width>
      <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;File</string>
+     <string>Connect</string>
     </property>
-    <addaction name="actionOpen_CSV"/>
+    <addaction name="actionConnect_to_Database"/>
+   </widget>
+   <widget class="QMenu" name="menuAdd">
+    <property name="title">
+     <string>Add</string>
+    </property>
+    <addaction name="actionAdd_Window"/>
+    <addaction name="actionAdd_Table"/>
+    <addaction name="actionAdd_Component"/>
+    <addaction name="actionAdd_Relationship"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuAdd"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen_CSV">
@@ -52,6 +102,34 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionConnect_to_Database">
+   <property name="text">
+    <string>Connect to Database</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionAdd_Window">
+   <property name="text">
+    <string>Add Window</string>
+   </property>
+  </action>
+  <action name="actionAdd_Table">
+   <property name="text">
+    <string>Add Table</string>
+   </property>
+  </action>
+  <action name="actionAdd_Component">
+   <property name="text">
+    <string>Add Component</string>
+   </property>
+  </action>
+  <action name="actionAdd_Relationship">
+   <property name="text">
+    <string>Add Relationship</string>
    </property>
   </action>
  </widget>
