@@ -1,12 +1,11 @@
 #This needs to go into templates
 from PyQt5 import uic
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidget,QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidget,QTableWidgetItem, QInputDialog, QLineEdit
 import pandas as pd
 import views.main_window.mainTable as mainTable
 import views.dialogs.addMenu.addWindowDialog as addWindow
 import sys
-import mysql.connector
-from mysql.connector import errorcode
+import model as m
 
 class MainWindow(QMainWindow):
 	"""
@@ -26,9 +25,10 @@ class MainWindow(QMainWindow):
 
 	rootPath = None
 	openCSV = None
-	mainTable = None
+	windowData = None
 	db = None
 	dialogs = []
+	viewTablesWidget = None
 
 	def __init__(self, parent=None):
 		# Load UI
@@ -51,6 +51,8 @@ class MainWindow(QMainWindow):
 		# TO fix this rootpath should probably inherit from start.py?  Or Read from settings yea that makes more sense, read from settings based on
 		# root path column info.  Or, auto make a folder like PyBiz\user\username
 		self.rootPath = "C:"
+
+		self.viewTablesWidget
 		
 		for p in sys.path:
 			print("path" + p)
@@ -65,29 +67,37 @@ class MainWindow(QMainWindow):
 
 	def listWindowItemActivated(self):
 		print("Item was activated")
-
+		
 
 	def refreshListOfWindows(self):
 		print("Updating list of Windows")
 		self.ui.listOfWindows.clear()
 
-		cnx = self.connectToDb()
-		query = "SELECT windowName FROM windows"
-		if cnx:
-			cursor = cnx.cursor()
-			cursor.execute(query)
+		cnx = m.db()
+		queryData = cnx.selectAllFromTable("windows")
+
+		if queryData:
+			self.windowData = queryData
+
+			for window in queryData:
+				print(str(window))
+				self.ui.listOfWindows.addItem(window[1])
 			
-			for windowName in cursor:
-				print(windowName[0])
-				self.ui.listOfWindows.addItem(windowName[0])
-			
-			cursor.close()
-			cnx.close()
+
+		cnx.close()
 
 
 	def addWindow(self):
-		print("open window dialog")
-		self.dialogs.append(addWindow.addWindowDialog(refreshFunction = self.refreshListOfWindows()))
+		# self.dialogs.append(addWindow.addWindowDialog(refreshFunction = self.refreshListOfWindows()))
+		tableName, okPressed = QInputDialog.getText(self, "Table Name","Table Name:", QLineEdit.Normal, "")
+		if okPressed and tableName != '':
+			tableDesc, okPressed2 = QInputDialog.getText(self, "Table Description","Description:", QLineEdit.Normal, "")
+			if okPressed2 and tableDesc != '':
+				
+				cnx = m.db()
+				cnx.insertIntoTable("windows", columns=["windowName", "description"], values=[tableName, tableDesc])
+				cnx.cnx.close()
+				self.ui.listOfWindows.addItem(tableName)
 
 	def addTable(self):
 		pass
@@ -95,43 +105,5 @@ class MainWindow(QMainWindow):
 	def addComponent(self):
 		pass
 
-	def openCSVFile(self):
-		"""
-		openCSVFile: A function that opens and then populates the main window with the .csv file data
-		Arguments:
-			self: pass in instance of class
-		Returns:
-			Nothing, populates the table in the window with .csv file data
-		"""
-		# Not sure what QFileDialog.options does, should look up
-		options = QFileDialog.Options()
-		filePath, _ = QFileDialog.getOpenFileName(self,"Open CSV...", "","All Files (*);;CSV Files (*.csv)", options=options)
-		
-		self.mainTable.openCSV(filePath)
-
 	def connectToDb(self):
-		"""
-		connectToDb: connect to a MySQL database
-		Arguments:
-
-		Returns:
-			self.db: connection to the database 
-		"""
-		try:
-			cnx = mysql.connector.connect(user='brian',password='admin', host='127.0.0.1', database='production')
-			print("connected")
-			# Return a cursor object
-			return cnx
-		except mysql.connector.Error as err:
-			if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-				print("Something is wrong with your user name or password")
-				return ""
-			elif err.errno == errorcode.ER_BAD_DB_ERROR:
-				print("Database does not exist")
-				return ""
-			else:
-				print(err)
-				return ""
-		else:
-			cnx.close()
-			return ""
+		pass
