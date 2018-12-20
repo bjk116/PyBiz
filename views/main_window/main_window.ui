@@ -23,36 +23,9 @@
       <height>41</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>All</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Global</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Projects</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Quotes</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Summary</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Time Entry\Expense</string>
-     </property>
-    </item>
+    <property name="currentIndex">
+     <number>-1</number>
+    </property>
    </widget>
    <widget class="QListWidget" name="listOfWindows">
     <property name="geometry">

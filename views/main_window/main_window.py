@@ -29,6 +29,8 @@ class MainWindow(QMainWindow):
 	db = None
 	dialogs = []
 	viewTablesWidget = None
+	sectionsOfPSM4 = ("All", "Global", "Projects", "Customer Management", "Vendor Management", "Time Entry\\Expense", "Quotes")
+	windowInFocus = None
 
 	def __init__(self, parent=None):
 		# Load UI
@@ -50,9 +52,10 @@ class MainWindow(QMainWindow):
 		self.refreshListOfWindows()
 		# TO fix this rootpath should probably inherit from start.py?  Or Read from settings yea that makes more sense, read from settings based on
 		# root path column info.  Or, auto make a folder like PyBiz\user\username
-		self.rootPath = "C:"
+		# self.rootPath = "C:"
 
-		self.viewTablesWidget
+		for section in self.sectionsOfPSM4:
+			self.ui.comboBox.addItem(section)
 		
 		for p in sys.path:
 			print("path" + p)
@@ -65,9 +68,23 @@ class MainWindow(QMainWindow):
 	def addRelationship(self):
 		pass
 
-	def listWindowItemActivated(self):
-		print("Item was activated")
-		
+	def listWindowItemActivated(self, event):
+		"""
+		listWindowItemActivated: opens up the window in the Udate Window dialog, sets the last clicked item as last in focus
+
+		"""
+
+		# If I find myself trying to get data from tables like this and need to iterate till a None value
+		# is found, I should make a function.  Until then, just using event.data(0) is fine.
+		windowSelected = event.data(0)
+		cnx = m.db()
+		query = "SELECT * FROM windows WHERE windowName = \"%s\";" % (windowSelected)
+		print("query: " + query)
+		queryData = cnx.executeQuery(query)
+		for stuff in queryData:
+			print("stuff: " + str(stuff))
+
+	
 
 	def refreshListOfWindows(self):
 		print("Updating list of Windows")
@@ -93,11 +110,12 @@ class MainWindow(QMainWindow):
 		if okPressed and tableName != '':
 			tableDesc, okPressed2 = QInputDialog.getText(self, "Table Description","Description:", QLineEdit.Normal, "")
 			if okPressed2 and tableDesc != '':
-				
-				cnx = m.db()
-				cnx.insertIntoTable("windows", columns=["windowName", "description"], values=[tableName, tableDesc])
-				cnx.cnx.close()
-				self.ui.listOfWindows.addItem(tableName)
+				tableGroup, okPressed3 = QInputDialog.getItem(self, "Relevant Section","Section:", self.sectionsOfPSM4[1:], 0, False)
+				if okPressed3:
+					cnx = m.db()
+					cnx.insertIntoTable("windows", columns=["windowName", "description"], values=[tableName, tableDesc])
+					cnx.cnx.close()
+					self.ui.listOfWindows.addItem(tableName)
 
 	def addTable(self):
 		pass

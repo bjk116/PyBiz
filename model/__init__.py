@@ -90,3 +90,22 @@ class db():
 		print("id of inserted entry: " + str(self.cursor.lastrowid))
 		self.cnx.commit()
 		self.cursor.close()
+
+	def selectAllWithWhereFilter(self, tableName = None, whereFilter = "1 = 1"):
+		if tableName is None:
+			return "No table"
+		else:
+			query = "SELECT * FROM %s WHERE %s" % (tableName, whereFilter)
+			self.cursor = self.cnx.cursor()
+			self.cursor.execute(query)
+
+	def runQuery(self, tableName = None, columns = "*", whereClause = None, orderBy = None, groupBy = None, having = None):
+		"""
+		runQuery: this will be made to replace all other functions eventually
+		runQuery: allows running simple wherefilter clause arguments
+		Args:
+
+		Returns:
+			data
+		"""
+		pass
