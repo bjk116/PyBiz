@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog, QTableWidget,QTableWidgetI
 import pandas as pd
 import views.main_window.mainTable as mainTable
 import views.dialogs.addMenu.addWindowDialog as addWindow
+from views.dialogs.tableInfo import tableInfoDialog
 import sys
 import model as m
 
@@ -81,11 +82,14 @@ class MainWindow(QMainWindow):
 		query = "SELECT * FROM windows WHERE windowName = \"%s\";" % (windowSelected)
 		print("query: " + query)
 		queryData = cnx.executeQuery(query)
-		for stuff in queryData:
-			print("stuff: " + str(stuff))
 
+		print("queryData: " + str(queryData))
+		idx = queryData[0][0]
+		tableName = str(queryData[0][1])
+		tableDescription = str(queryData[0][2])
+
+		self.dialogs.append(tableInfoDialog(idx = idx, tableName = tableName, tableDescription = tableDescription))
 	
-
 	def refreshListOfWindows(self):
 		print("Updating list of Windows")
 		self.ui.listOfWindows.clear()
@@ -114,7 +118,7 @@ class MainWindow(QMainWindow):
 				if okPressed3:
 					cnx = m.db()
 					cnx.insertIntoTable("windows", columns=["windowName", "description"], values=[tableName, tableDesc])
-					cnx.cnx.close()
+					cnx.close()
 					self.ui.listOfWindows.addItem(tableName)
 
 	def addTable(self):

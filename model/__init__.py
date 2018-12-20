@@ -55,6 +55,28 @@ class db():
 		self.cursor.close()
 		self.cnx.close()
 
+
+
+	def updateQuery(self, query):
+		# table, columns = [], values = [], whereClause = None
+		# if len(columns) != len(values):
+		# 	print "we got an error, not same amount of columns and values passed into the function"
+		# 	return
+		# else:
+		# 	setStatement = ""
+		# 	for idx, value in columns:
+		# 		setStatement += "%s = %s," % ()
+
+
+
+		# query = "UPDATE %s SET %s WHERE %s;"%(table, ','.join(columns), '"'+'", "'.join(values)+'"', whereClause)
+		print(query)
+		self.cursor = self.cnx.cursor()
+		self.cursor.execute(query)
+		
+		self.cnx.commit()
+		self.cursor.close()
+
 	def selectAllFromTable(self, table, limit = 1000):
 		query = "SELECT * FROM " + table + " LIMIT " + str(limit) +";"
 		print(query)
@@ -91,21 +113,21 @@ class db():
 		self.cnx.commit()
 		self.cursor.close()
 
-	def selectAllWithWhereFilter(self, tableName = None, whereFilter = "1 = 1"):
-		if tableName is None:
-			return "No table"
-		else:
-			query = "SELECT * FROM %s WHERE %s" % (tableName, whereFilter)
-			self.cursor = self.cnx.cursor()
-			self.cursor.execute(query)
+	# def selectAllWithWhereFilter(self, tableName = None, whereFilter = "1 = 1"):
+	# 	if tableName is None:
+	# 		return "No table"
+	# 	else:
+	# 		query = "SELECT * FROM %s WHERE %s" % (tableName, whereFilter)
+	# 		self.cursor = self.cnx.cursor()
+	# 		self.cursor.execute(query)
 
-	def runQuery(self, tableName = None, columns = "*", whereClause = None, orderBy = None, groupBy = None, having = None):
-		"""
-		runQuery: this will be made to replace all other functions eventually
-		runQuery: allows running simple wherefilter clause arguments
-		Args:
+	# def runQuery(self, tableName = None, columns = "*", whereClause = None, orderBy = None, groupBy = None, having = None):
+	# 	"""
+	# 	runQuery: this will be made to replace all other functions eventually
+	# 	runQuery: allows running simple wherefilter clause arguments
+	# 	Args:
 
-		Returns:
-			data
-		"""
-		pass
+	# 	Returns:
+	# 		data
+	# 	"""
+	# 	pass
